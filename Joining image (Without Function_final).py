@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+kernel=np.ones((5,5), np.uint8)
+img= cv2.imread('H:\My Projects\OpenCV\lena.jpg')
+imgGray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+imgBlur= cv2.GaussianBlur(img,(7,7),0)
+imgCanny=cv2.Canny(img,100,100)
+imgDialation=cv2.dilate(imgCanny,kernel, iterations=1)
+imgEroded= cv2.erode(imgDialation,kernel,iterations=1)
+imgGray=cv2.cvtColor(imgGray,cv2.COLOR_GRAY2BGR)
+imgCanny=cv2.cvtColor(imgCanny,cv2.COLOR_GRAY2BGR)
+imgEroded=cv2.cvtColor(imgEroded,cv2.COLOR_GRAY2BGR)
+imgDialation=cv2.cvtColor(imgDialation,cv2.COLOR_GRAY2BGR)
+img= cv2.resize(img, (0, 0), None, 0.5, 0.5)
+imgGray= cv2.resize(imgGray, (0, 0), None, 0.5, 0.5)
+imgCanny= cv2.resize(imgCanny, (0, 0), None, 0.5, 0.5)
+imgEroded= cv2.resize(imgEroded, (0, 0), None, 0.5, 0.5)
+imgBlur= cv2.resize(imgBlur, (0, 0), None, 0.5, 0.5)
+imgDialation= cv2.resize(imgDialation, (0, 0), None, 0.5, 0.5)
+print(img.shape, imgBlur.shape, imgGray.shape, imgEroded.shape, imgCanny.shape, imgDialation.shape)
+hor1=np.hstack((img,imgGray,imgBlur))
+hor2=np.hstack((imgCanny,imgEroded,imgDialation))
+ver=np.vstack((hor1,hor2))
+cv2.imshow("ImageStack", ver)
+
+
+cv2.waitKey(0)
